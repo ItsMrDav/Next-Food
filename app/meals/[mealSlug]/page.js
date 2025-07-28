@@ -3,6 +3,19 @@ import classes from './page.module.css';
 import { getMeal } from '@/lib/meals';
 import { notFound } from 'next/navigation';
 
+export async function generateMetadata({ params }) {
+  const meal = getMeal(params.mealSlug);
+
+  if (!meal) {
+    notFound();
+  }
+
+  return {
+    title: meal.title,
+    description: meal.summary,
+  };
+}
+
 // localhost:3000/meals/something (except meals/share cuz it already exist)
 export default function MealDetailsPage({ params }) {
   const meal = getMeal(params.mealSlug);
